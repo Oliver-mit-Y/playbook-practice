@@ -1,0 +1,5 @@
+- name: upload to fabians sftp server
+  tasks:
+    name: 
+    #local host ansible playbook laufen lassen
+    # sftp upload machen 
