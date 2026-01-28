@@ -1,5 +1,16 @@
 - name: upload to fabians sftp server
+  hosts: localhost
+  connection: local
+  vars:
+    ticketnummer: "1234"
+  gather_facts: true
   tasks:
-    name: 
-    #local host ansible playbook laufen lassen
-    # sftp upload machen 
+    - name: connect using sftp
+      ansible.builtin.shell: | 
+        sshpass -p Oliver123. sftp oliver@164.30.69.250 << EOF
+        cd uploads
+        mkdir {{ticketnummer}}
+        cd {{ticketnummer}}
+        put /home/oliver/Documents/playbook-practice/send-out/diagnose.txt
+        exit
+      register: output
