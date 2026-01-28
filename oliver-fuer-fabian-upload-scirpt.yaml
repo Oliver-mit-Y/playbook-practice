@@ -3,14 +3,19 @@
   connection: local
   vars:
     ticketnummer: "1234"
+    passwd: "Oliver123."
+    user: "oliver"
+    sftp_ip: "164.30.69.250"
+    diag_package_path: "/home/oliver/Documents/playbook-practice/send-out/diagnose.txt"
   gather_facts: true
   tasks:
     - name: connect using sftp
       ansible.builtin.shell: | 
-        sshpass -p Oliver123. sftp oliver@164.30.69.250 << EOF
+        sshpass -p {{passwd}} sftp {{user}}@{{sftp_ip}} << EOF
         cd uploads
         mkdir {{ticketnummer}}
         cd {{ticketnummer}}
-        put /home/oliver/Documents/playbook-practice/send-out/diagnose.txt
+        put {{diag_package_path}}
         exit
       register: output
+    
