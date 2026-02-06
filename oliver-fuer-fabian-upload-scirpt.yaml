@@ -1,21 +1,28 @@
 - name: upload to fabians sftp server
   hosts: localhost
   connection: local
+  vars_files:
+   - file.vars
   vars:
-    ticketnummer: "1234"
-    passwd: "Oliver123."
-    user: "oliver"
-    sftp_ip: "164.30.69.250"
     diag_package_path: "/home/oliver/Documents/playbook-practice/send-out/diagnose.txt"
+    upload_folder: "uploads"
   gather_facts: true
   tasks:
     - name: connect using sftp
       ansible.builtin.shell: | 
+        EOF
         sshpass -p {{passwd}} sftp {{user}}@{{sftp_ip}} << EOF
-        cd uploads
+        cd {{upload_folder}}
         mkdir {{ticketnummer}}
         cd {{ticketnummer}}
         put {{diag_package_path}}
         exit
       register: output
-    
+    - name: output debug
+      debug:
+        var: output.stdout
+    - name: copy the output to a local file
+      copy:
+        content: "{{output.stdout}}"
+        dest: "/home/oliver/Documents/playbook-practice/log.txt"
+      delegate_to: localhost

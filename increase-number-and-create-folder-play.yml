@@ -1,0 +1,25 @@
+- name: have a number vaiable and increase the value in a loop and create then a folder with the name of the variable
+  hosts: localhost
+  connection: local
+  vars:
+    passwd: "Oliver123."
+    user: "oliver"
+    sftp_ip: "164.30.69.250"
+  gather_facts: true
+
+  tasks:
+  - name: loop
+    loop: "{{range(1, 10) | list}}"
+    loop_control:
+      loop_var: x
+    ansible.builtin.shell: |
+      echo "{{x}}"
+      sshpass -p {{passwd}} sftp {{user}}@{{sftp_ip}} << EOF
+      cd uploads/test
+      mkdir {{x}}
+      exit
+    register: output
+
+  - name: output debug
+    debug:
+      var: output.stdout

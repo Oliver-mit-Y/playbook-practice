@@ -1,1 +1,6 @@
-{"output": null}
+sftp> cd uploads
+sftp> mkdir 12345
+sftp> cd 12345
+sftp> put /home/oliver/Documents/playbook-practice/send-out/diagnose.txt
+Uploading /home/oliver/Documents/playbook-practice/send-out/diagnose.txt to /uploads/12345/diagnose.txt
+sftp> exit
